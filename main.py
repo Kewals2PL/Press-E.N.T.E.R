@@ -67,9 +67,20 @@ def toggle_fullscreen(screen):
     """Przełącza między trybem pełnoekranowym i okienkowym."""
     is_fullscreen = screen.get_flags() & FULLSCREEN
     if is_fullscreen:
-        pygame.display.set_mode((800, 600))  # Tryb okienkowy
+        pygame.display.set_mode((800, 600), RESIZABLE)  # Tryb okienkowy z możliwością zmiany rozmiaru
     else:
         pygame.display.set_mode((0, 0), FULLSCREEN)  # Pełny ekran
+
+def fill_screen_green(screen, duration=5000):
+    """Szybko wypełnia ekran zielonym kolorem w zadanym czasie."""
+    start_time = pygame.time.get_ticks()
+    screen_width, screen_height = screen.get_size()
+    step_time = duration // screen_height
+
+    for i in range(screen_height):
+        pygame.draw.rect(screen, (0, 255, 0), (0, i, screen_width, 1))
+        pygame.display.flip()
+        pygame.time.delay(step_time)
 
 def options_menu(screen, font):
     """Wyświetla menu opcji z możliwością nawigacji strzałkami."""
@@ -248,6 +259,7 @@ def ending_nuclear_attack(screen, font):
         "KONIEC GRY: Ziemia została zniszczona."
     )
     display_text_with_typing(screen, text, font, 20, 150)
+    fill_screen_green(screen, duration=5000)
     wait_for_exit()
 
 def ending_negotiations(screen, font):
@@ -259,6 +271,7 @@ def ending_negotiations(screen, font):
         "KONIEC GRY: Uratowałeś świat."
     )
     display_text_with_typing(screen, text, font, 20, 150)
+    fill_screen_green(screen, duration=5000)
     wait_for_exit()
 
 def ending_waiting(screen, font):
@@ -270,6 +283,7 @@ def ending_waiting(screen, font):
         "KONIEC GRY: Twoja bezczynność doprowadziła do katastrofy."
     )
     display_text_with_typing(screen, text, font, 20, 150)
+    fill_screen_green(screen, duration=5000)
     wait_for_exit()
 
 def wait_for_exit():
